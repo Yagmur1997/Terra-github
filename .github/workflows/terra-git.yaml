@@ -1,0 +1,28 @@
+name: Terraform Automation
+
+on:
+  workflow_dispatch:
+  # pull_request:
+  #   branches:
+  #     - main
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Initialize Terraform
+      run: terraform init
+    - name: Validate Terraform
+      run: terraform validate
+    - name: Plan terraform
+      run: plan terraform
+    - name: Apply Terraform changes
+      run: terraform apply -auto-approve
+    
